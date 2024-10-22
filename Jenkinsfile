@@ -19,8 +19,20 @@ pipeline {
             }
             steps {
                 dir('SimpleWebApp') {
-                    // Set environment variables and run dotnet publish
                     sh 'dotnet publish -c Release -o ./published_app'
+                }
+            }
+        }
+        stage('Deploy and Run') {
+            steps {
+                script {
+                    // Kill any previous instance of the app running on port 5295
+                    sh 'fuser -k 5295/tcp || true' // Kill the process if it's running
+
+                    // Run the newly built app in the background on port 5295
+                    sh '''
+                    nohup dotnet /var/lib/jenkins/workspace/test/SimpleWebApp/published_app/SimpleWebApp.dll --urls "http://0.0.0.0:5295" &
+                    '''
                 }
             }
         }
