@@ -1,0 +1,12 @@
+@model string
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1>@ViewBag.Message</h1>
+    <form method="post">
+        <button type="submit" class="btn btn-primary">Click me</button>
+    </form>
+    <p>The button does nothing yet, but it works!</p>
+</div>
