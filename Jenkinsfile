@@ -13,7 +13,7 @@ pipeline {
         stage('Build and Publish') {
             agent {
                 docker {
-                    image 'mcr.microsoft.com/dotnet/sdk:7.0'
+                    image 'mcr.microsoft.com/dotnet/sdk:8.0'
                     reuseNode true
                 }
             }
