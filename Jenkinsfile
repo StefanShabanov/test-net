@@ -1,9 +1,5 @@
 pipeline {
     agent any
-    environment {
-        DOTNET_CLI_HOME = "${env.WORKSPACE}/.dotnet"
-        HOME = "${env.WORKSPACE}"
-    }
     stages {
         stage('Checkout') {
             steps {
@@ -27,11 +23,11 @@ pipeline {
             steps {
                 script {
                     // Kill any previous instance of the app running on port 5295
-                    sh 'fuser -k 5295/tcp || true' // Kill the process if it's running
+                    sh 'fuser -k 5295/tcp || true'
 
-                    // Run the newly built app in the background on port 5295
+                    // Run the app in the background and redirect logs for debugging
                     sh '''
-                    nohup dotnet /var/lib/jenkins/workspace/test/SimpleWebApp/published_app/SimpleWebApp.dll --urls "http://0.0.0.0:5295" &
+                    nohup dotnet /var/lib/jenkins/workspace/test/SimpleWebApp/published_app/SimpleWebApp.dll --urls "http://0.0.0.0:5295" > /var/lib/jenkins/workspace/test/SimpleWebApp/published_app/app.log 2>&1 &
                     '''
                 }
             }
