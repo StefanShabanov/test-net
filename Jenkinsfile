@@ -12,12 +12,14 @@ pipeline {
                 docker {
                     // Use the official .NET SDK Docker image
                     image 'mcr.microsoft.com/dotnet/sdk:7.0'
+                    reuseNode true
                 }
             }
             steps {
                 // Navigate to the correct directory and build the project
                 dir('SimpleWebApp') {
-                    sh 'dotnet publish -c Release -o /var/jenkins_home/published_app'
+                    // Publish to a relative directory inside the workspace
+                    sh 'dotnet publish -c Release -o ./published_app'
                 }
             }
         }
