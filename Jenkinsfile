@@ -4,7 +4,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Pulls your code from GitHub
-                git branch: 'main', url: 'https://github.com/StefanShabanov/test-net/tree/main/SimpleWebApp'
+                git branch: 'main', url: 'https://github.com/StefanShabanov/test-net.git'
             }
         }
         stage('Build and Publish') {
@@ -15,8 +15,10 @@ pipeline {
                 }
             }
             steps {
-                // Build and publish the app
-                sh 'dotnet publish -c Release -o /var/jenkins_home/published_app'
+                // Navigate to the correct directory and build the project
+                dir('SimpleWebApp') {
+                    sh 'dotnet publish -c Release -o /var/jenkins_home/published_app'
+                }
             }
         }
     }
