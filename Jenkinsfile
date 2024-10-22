@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        DOTNET_CLI_HOME = "${env.WORKSPACE}/.dotnet"
+        HOME = "${env.WORKSPACE}"
+    }
     stages {
         stage('Checkout') {
             steps {
